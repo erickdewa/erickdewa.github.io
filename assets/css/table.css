@@ -1,0 +1,109 @@
+/* Table Button */
+td > .btn{
+	background: transparent;
+	color: #5488A5;
+}
+td > .btn:hover{
+	background: #EDF3F6;
+}
+.btn.active,
+.btn:active {
+	outline: none;
+}
+.btn.active.focus,
+.btn.active:focus,
+.btn.active:hover,
+.btn:active.focus,
+.btn:active:focus,
+.btn:active:hover {
+	outline: none;
+	box-shadow: none;
+}
+
+/* Table Form */
+.form-group{
+    margin: 25px 0px;
+}
+select.form-control{
+	color: #787C81;
+	font-size: 13px;
+	width: 100%;
+	padding: 8px 10px;
+	border: 1px solid #DEE2E6;
+	border-radius: 5px;
+}
+.form-append{
+    width: 100%;
+    display: flex;
+    padding: 3px;
+	margin-left: auto;
+	border: 1px solid #DEE2E6;
+    border-radius: 5px;
+}
+.form-append input.form-control{
+	background: transparent;
+	font-size: 13px;
+	width: 100%;
+	padding: 5px 10px;
+	border: none;
+}
+.form-append .icon{
+	color: #787C81;
+	display: inline-block;
+	text-align: center;
+	width: 30px;
+	padding: 5px;
+	margin: 0px;
+	cursor: pointer;
+}
+.form-control:focus{
+	outline: none;
+	box-shadow: none;
+}
+
+.aro-table-responsive{
+	width: 100%;
+	overflow-x: auto;
+}
+.aropex-teble .row{
+	justify-content: space-between;
+}
+/* Table Default */
+th{
+	font-weight: 600;
+}
+th, td{
+	color: #7F7F92;
+	font-size: 13px;
+	vertical-align: middle!important;
+	text-align: center;
+}
+td span.aro-label, td div.aro-label{
+	font-size: 13px;
+	border-radius: 50px;
+	padding: 0px 15px;
+}
+
+/* Table Elegant*/
+.table-elegant{
+	border: none;
+	border-collapse: separate;
+    border-spacing: 0 5px;
+}
+.table-elegant thead th, .table-elegant tbody td{
+	height: 60px;
+	padding: 12px;
+	border: none;
+}
+.table-elegant thead tr{
+	background-color: rgb(246, 246, 246, 0.6);
+}
+.table-elegant tbody tr{
+	background-color: rgb(246, 246, 246, 0.6);
+}
+.table-elegant tr td:first-child, .table-elegant tr th:first-child{
+    border-radius: 5px 0px 0px 5px;
+}
+.table-elegant tr td:last-child, .table-elegant tr th:last-child{
+	border-radius: 0px 5px 5px 0px;
+}
