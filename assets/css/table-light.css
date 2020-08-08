@@ -36,6 +36,7 @@ td > .btn:hover{
 }
 .aro-table_search{
     width: 70%;
+    display: flex;
     padding: 3px;
 	margin: 25px 0px;
 	margin-left: auto;
@@ -45,12 +46,15 @@ td > .btn:hover{
 .aro-table_search input{
 	background: transparent;
 	font-size: 13px;
-	width: 90%;
+	width: 100%;
 	padding: 5px 10px;
 	border: none;
 }
-.aro-table_search label{
+.aro-table_search .icon-search{
 	color: #787C81;
+	display: inline-block;
+	text-align: center;
+	width: 30px;
 	padding: 5px;
 	margin: 0px;
 	cursor: pointer;

@@ -327,4 +327,13 @@ body{
 		text-align: center;
 		font-size: 25px;	
 	}
+	.aro-footer_text{
+		font-size: 35px;
+		padding: 5px;
+	}
+	.aro-footer_social_btn{
+	    font-size: 30px;
+	    padding: 10px;
+	    margin: 20px 0px;
+	}
 }
