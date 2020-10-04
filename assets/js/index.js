@@ -44,4 +44,10 @@ $(document).ready(function(){
 		    }
 		});
 	}
+
+	$('.clicked').on('click',  function(){
+		if($(this).hasClass('aro-alert')){
+			$(this).css('display', 'none');
+		}
+	});
 })

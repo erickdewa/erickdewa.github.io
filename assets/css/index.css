@@ -188,7 +188,7 @@ body{
 }
 .aro-restraint{
 	background: #FFFFFF;
-	margin: 10px;
+	margin: 25px 10px 50px 10px;
 	position: relative;
 	box-shadow: rgba(0,0,0,0.05) 0px 0px 15px;
 	border-radius: 5px;
@@ -196,7 +196,7 @@ body{
 .aro-restraint_title{
 	background: #FFFFFF;
 	font-size: 18px;
-	font-weight: 600;
+	font-weight: 500;
 	letter-spacing: 0.7px;
 	padding: 15px 25px;
 	border-radius: 5px 5px 0px 0px;
@@ -248,32 +248,44 @@ body{
 
 /* Color */
 .aro-danger{
-	background: #FD397A;
-	color: #FFFFFF;
+	background-color: #FD397A!important;
+	color: #FFFFFF!important;
 }
 .aro-success{
-	background: #0ABB87;
-	color: #FFFFFF;
+	background-color: #0ABB87!important;
+	color: #FFFFFF!important;
 }
 .aro-info{
-	background: #5578EB;
-	color: #FFFFFF;
+	background-color: #5578EB!important;
+	color: #FFFFFF!important;
 }
 .aro-warning{
-	background: #FFB822;
-	color: #FFFFFF;
+	background-color: #FFB822!important;
+	color: #FFFFFF!important;
 }
 .aro-primary{
-	background: #5867DD;
-	color: #FFFFFF;
+	background-color: #5867DD!important;
+	color: #FFFFFF!important;
 }
 .aro-dark{
-	background: #282A3C;
-	color: #FFFFFF;
+	background-color: #282A3C!important;
+	color: #FFFFFF!important;
 }
 .aro-light{
-	background: #FFFFFF;
-	color: #000000;
+	background-color: #FFFFFF!important;
+	color: #000000!important;
+}
+
+/* Alert */
+.aro-alert{
+	background-color: #FFB822;
+	font-size: 14px;
+	text-align: left;
+	color: #FFFFFF;
+	padding: 15px 20px;
+	margin: 10px;
+	display: block;
+	border-radius: 5px;
 }
 
 @media screen and (max-device-width: 980px) {

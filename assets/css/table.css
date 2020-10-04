@@ -25,19 +25,21 @@ td > .btn:hover{
     margin: 25px 0px;
 }
 select.form-control{
+	background: #F9F9F9;
 	color: #787C81;
 	font-size: 13px;
 	width: 100%;
 	padding: 8px 10px;
-	border: 1px solid #DEE2E6;
+	border: 2px solid #F9F9F9;
 	border-radius: 5px;
 }
 .form-append{
+	background: #F9F9F9;
     width: 100%;
     display: flex;
     padding: 3px;
 	margin-left: auto;
-	border: 1px solid #DEE2E6;
+	border: 2px solid #F9F9F9;
     border-radius: 5px;
 }
 .form-append input.form-control{
@@ -84,26 +86,60 @@ td span.aro-label, td div.aro-label{
 	padding: 0px 15px;
 }
 
-/* Table Elegant*/
-.table-elegant{
+/* Table Rowed*/
+.table-rowed{
 	border: none;
 	border-collapse: separate;
     border-spacing: 0 5px;
 }
-.table-elegant thead th, .table-elegant tbody td{
+.table-rowed thead th, .table-rowed tbody td{
 	height: 60px;
 	padding: 12px;
 	border: none;
 }
-.table-elegant thead tr{
+.table-rowed thead tr{
 	background-color: rgb(246, 246, 246, 0.6);
 }
-.table-elegant tbody tr{
+.table-rowed tbody tr{
 	background-color: rgb(246, 246, 246, 0.6);
 }
-.table-elegant tr td:first-child, .table-elegant tr th:first-child{
+.table-rowed tr td:first-child, .table-rowed tr th:first-child{
     border-radius: 5px 0px 0px 5px;
 }
-.table-elegant tr td:last-child, .table-elegant tr th:last-child{
+.table-rowed tr td:last-child, .table-rowed tr th:last-child{
 	border-radius: 0px 5px 5px 0px;
+}
+
+/* Table Bordered */
+.table-bordered{
+	border: 2px solid #F9F9F9;
+	border-collapse: collapse;
+}
+.table-bordered thead th, .table-bordered tbody td{
+	border: 2px solid #F9F9F9;
+}
+
+/* Table Borderles */
+.table-borderles{
+	border: 2px solid #F9F9F9;
+	border-collapse: collapse;
+}
+.table-borderles th, .table-borderles td{
+	border: none!important;
+}
+
+/* Table Striped */
+.table-striped{
+	border: 2px solid #F9F9F9;
+	border-collapse: collapse;
+}
+.table-striped thead th{
+	border-top: 2px solid #F9F9F9;
+	border-bottom: none;
+}
+.table-striped tbody td{
+	border-top: 2px solid #F9F9F9;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #F9F9F9;
 }
