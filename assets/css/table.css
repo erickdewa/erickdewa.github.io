@@ -71,6 +71,9 @@ select.form-control{
 	justify-content: space-between;
 }
 /* Table Default */
+.table{
+	margin: 0px;
+}
 th{
 	font-weight: 600;
 }
@@ -82,8 +85,8 @@ th, td{
 }
 td span.aro-label, td div.aro-label{
 	font-size: 13px;
-	border-radius: 50px;
-	padding: 0px 15px;
+	border-radius: 100px;
+	padding: 1.5px 15px;
 }
 
 /* Table Rowed*/
@@ -142,4 +145,41 @@ td span.aro-label, td div.aro-label{
 }
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #F9F9F9;
+}
+
+/* Pagination */
+.aro-paginate{
+	display: flex;
+	justify-content: space-between;
+	padding-top: 10px;
+}
+.paginate-info{
+	background-color: #F9F9F9;
+	padding: 5px 10px;
+	margin: 0px;
+	border-radius: 5px;
+}
+.paginate-source span{
+	color: #5488A5;
+	font-size: 13px;
+	font-weight: 300;
+}
+.paginate-source .paginate-ul{
+	background-color: #F9F9F9;
+	padding: 5px;
+	margin: 0px;
+	border-radius: 5px;
+}
+.paginate-source .paginate-li{
+	padding: 5px 12px;
+	text-align: center;
+	min-width: 35px;
+	display: inline-block;
+	list-style: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.paginate-source .paginate-li:hover,
+.paginate-source .paginate-li.active{
+	background-color: #FFFFFF;
 }

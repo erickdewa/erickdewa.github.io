@@ -288,6 +288,24 @@ body{
 	border-radius: 5px;
 }
 
+/* Scrollbar */
+.aro-scroll::-webkit-scrollbar {
+	height: 5px;
+}
+.aro-scroll::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	height: 5px;
+	border-radius: 5px;
+}
+.aro-scroll::-webkit-scrollbar-thumb {
+	background: #8888; 
+	height: 5px;
+	border-radius: 5px;
+}
+.aro-scroll::-webkit-scrollbar-thumb:hover {
+	background: #5488A5; 
+}
+
 @media screen and (max-width: 980px) {
 	.aro-main, .aro-footer{
 		padding-left: 0px;
@@ -298,10 +316,24 @@ body{
 	.aro-sidebar.active{
 		display: block;
 		position: fixed;
-		width: 70%;
+		width: 270px;
 		height: 100%;
 	}
 	.form-group {
-	    margin: 15px 0px;
+	    margin: 10px 0px;
+	}
+
+	/* Paginate */
+	.aro-paginate{
+		display: block;
+		padding-top: 10px;
+	}
+	.paginate-info{
+		background-color: #FFFFFF;
+		padding: 0px;
+		border-radius: 0px;
+	}
+	.paginate-source{
+		text-align: center;
 	}
 }
