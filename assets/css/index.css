@@ -288,7 +288,7 @@ body{
 	border-radius: 5px;
 }
 
-@media screen and (max-device-width: 980px) {
+@media screen and (max-width: 980px) {
 	.aro-main, .aro-footer{
 		padding-left: 0px;
 	}
@@ -301,51 +301,7 @@ body{
 		width: 70%;
 		height: 100%;
 	}
-	.aro-sidebar--brand{
-		padding: 25px 10px;
-	}
-	.aro-sidebar .aro-sidebar--brand_text{
-		display: inline-block;
-		font-size: 60px;
-		width: 100%;
-	}
-	.aro-main .btn-icon-sidebar{
-		font-size: 50px;
-	}
-	.aro-main .aro-content{
-		padding: 200px 50px 100px 50px;
-	}
-	.aro-sidebar--menu_item{
-		padding: 20px 25px;
-		font-size: 35px;
-	}
-	.aro-sidebar--menu_item .menu-text{
-		margin-left: 20px;
-	}
-	.aro-sidebar--menu_item i{
-		width: 40px;
-		text-align: center;
-		font-size: 35px;
-	}
-	.aro-sidebar--submenu_item{
-		padding: 20px 25px;
-		font-size: 35px;
-	}
-	.aro-sidebar--submenu_item .submenu-text{
-		margin-left: 20px;
-	}
-	.aro-sidebar--submenu_item i{
-		width: 40px;
-		text-align: center;
-		font-size: 25px;	
-	}
-	.aro-footer_text{
-		font-size: 35px;
-		padding: 5px;
-	}
-	.aro-footer_social_btn{
-	    font-size: 30px;
-	    padding: 10px;
-	    margin: 20px 0px;
+	.form-group {
+	    margin: 15px 0px;
 	}
 }
