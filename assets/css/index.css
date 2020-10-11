@@ -30,6 +30,7 @@ body{
 	display: none;
 }
 .aro-sidebar.active ~ .aro-main,
+.aro-sidebar.active ~ .aro-main .aro-top-menu,
 .aro-sidebar.active ~ .aro-footer{
 	padding-left: 0px;
 }
@@ -161,15 +162,28 @@ body{
 	background-color: #5488A5;
 	position: fixed;
 	top: 0px;
+	right: 0px;
+    left: 0px;
+    top: 0px;
+    height: 65px;
+    padding-left: 270px;
+	z-index: 1;
+}
+.top-menu{
+	height: inherit;
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
-	z-index: 1;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.aro-top-menu_left,
+.aro-top-menu_rigth{
+	display: flex;
+	align-items: center;
 }
 .btn-icon-sidebar{
 	color: #FFFFFF;
 	padding: 5px 15px;
-	margin: 10px;
 	font-size: 25px;
 	border-radius: 5px;
 	cursor: pointer;
@@ -177,8 +191,44 @@ body{
 .btn-icon-sidebar:hover{
 	background: #6593AE;
 	padding: 5px 15px;
-	margin: 10px;
 	font-size: 25px;
+	border-radius: 5px;
+}
+.aro-info-top{
+	display: flex;
+	padding: 0px 10px;
+}
+.top-icon{
+	color: #FFFFFF;
+	padding: 10px;
+	margin: 0px 5px;
+	position: relative;
+	min-width: 40px;
+	text-align: center;
+	border-radius: 50%;
+}
+.top-icon:hover{
+	background: #6593AE;
+}
+.top-icon i{
+	color: #FFFFFF;
+	font-size: 20px;
+}
+.top-icon span{
+	position: absolute;
+	background: #FD397A;
+	color: #FFFFFF;
+	font-size: 10px;
+	text-align: center;
+	min-width: 20px;
+	padding: 3px;
+	top: 1px;
+	left: 1px;
+	border-radius: 50%;
+}
+.aro-profile-top-img{
+	width: 40px;
+	height: 40px;
 	border-radius: 5px;
 }
 
@@ -307,6 +357,9 @@ body{
 }
 
 @media screen and (max-width: 980px) {
+	.aro-top-menu{
+	    padding-left: 0px;
+	}
 	.aro-main, .aro-footer{
 		padding-left: 0px;
 	}
