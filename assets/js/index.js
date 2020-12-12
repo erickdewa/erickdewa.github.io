@@ -1,10 +1,38 @@
 $(document).ready(function(){
-	$('.btn-icon-sidebar').on('click', function(){
-		if(!$('.aro-sidebar').hasClass('active')){
-			$('.aro-sidebar').addClass('active');
-			outside('.aro-sidebar', 'active');
+	function aropex(){
+		this.outside = function(el, tg, c){
+			$(document).mouseup(function(e){
+			    if($(el).hasClass(c)){
+				    if(!$(el).is(e.target) && $(el).has(e.target).length < 1){
+				    	if(!$(tg).is(e.target) && $(tg).has(e.target).length < 1){
+					        $(el).removeClass(c);
+					    }
+				    }
+			    }
+			});
+		};
+		this.event = function(el, outside){
+			var event = $(el).data('event');
+			if(event == 'dropdown'){
+				var target = $(el).data('target');
+				if(!$(target).hasClass('active')){
+					$(target).addClass('active');
+					if(outside){
+						this.outside(target, el, 'active');
+					}
+				}else{
+					$(target).removeClass('active');
+				}
+			}
+		};
+	}
+
+	let Aropex = new aropex();
+	$('.aro-menu').on('click', function(){
+		if($(window).width() <= 980){
+			Aropex.event(this, true);
 		}else{
-			$('.aro-sidebar').removeClass('active');
+			Aropex.event(this, false);
 		}
 	});
 
@@ -34,20 +62,13 @@ $(document).ready(function(){
 		}
 	});
 
-	function outside(el, remove){
-		$(document).mouseup(function(e){
-		    var element = $(el);
-		    if(element.hasClass(remove) && $(window).width() <= 980){
-			    if(!element.is(e.target) && element.has(e.target).length === 0){
-			        $(el).removeClass(remove);
-			    }
-		    }
-		});
-	}
-
 	$('.clicked').on('click',  function(){
 		if($(this).hasClass('aro-alert')){
 			$(this).css('display', 'none');
 		}
+	});
+
+	$('.dropdown').on('click', function(){
+		Aropex.event(this, true);
 	});
 })

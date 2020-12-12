@@ -20,7 +20,7 @@
 </style>
 <body>
 	<div class="main">
-		<div class="aro-sidebar">
+		<div id="aro-sidebar" class="aro-sidebar">
 			<div class="aro-sidebar--brand">
 				<div class="aro-sidebar--brand_text">AROPEX</div>
 			</div>
@@ -58,7 +58,7 @@
 			<div class="aro-top-menu">
 				<div class="top-menu">
 					<div class="aro-top-menu_left">
-						<div class="btn-icon-sidebar"><i class="fa fa-bars"></i></div>
+						<div class="aro-menu" data-event="dropdown" data-target="#aro-sidebar"><i class="fa fa-bars"></i></div>
 					</div>
 					<div class="aro-top-menu_rigth">
 						<div class="aro-info-top">
@@ -77,8 +77,17 @@
 								<i class="fa fa-bell-o"></i>
 							</div>
 						</div>
-						<div class="aro-profile-top">
+						<div class="aro-profile-top dropdown" data-event="dropdown" data-target="#profile-top-dropdown">
 							<img class="aro-profile-top-img" src="./assets/images/avatar-1.png">
+						</div>
+						<div id="profile-top-dropdown" class="aro-profile-top-dropdown">
+							<div class="aro-profile-information">
+								<div class="profile-dropdown-name">Erick Dewa Pranata</div>
+							</div>
+							<div class="aro-profile-button">
+								<div class="btn btn-warning btn-sm"><i class="fa fa-sign-out"></i> Logout</div>
+								<div class="btn btn-info btn-sm"><i class="fa fa-user"></i> Profile</div>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -65,6 +65,9 @@ body{
 	border-radius: 5px;
 	cursor: pointer;
 }
+.aro-sidebar--menu_item:hover{
+	background: #F7F7F7;
+}
 .aro-sidebar--menu_item:hover a{
 	padding: 10px;
 	transition-delay: 200ms;
@@ -181,14 +184,14 @@ body{
 	display: flex;
 	align-items: center;
 }
-.btn-icon-sidebar{
+.aro-menu{
 	color: #FFFFFF;
 	padding: 5px 15px;
 	font-size: 25px;
 	border-radius: 5px;
 	cursor: pointer;
 }
-.btn-icon-sidebar:hover{
+.aro-menu:hover{
 	background: #6593AE;
 	padding: 5px 15px;
 	font-size: 25px;
@@ -230,6 +233,48 @@ body{
 	width: 40px;
 	height: 40px;
 	border-radius: 5px;
+}
+
+/* Menu Top Dropdown */
+.aro-profile-top-dropdown{
+	background: #FFFFFF;
+	position: absolute;
+	right: 10px;
+	top: 70px;
+	border-radius: 5px;
+	border: 2px solid #5488A5;
+	display: none;
+}
+.aro-profile-top-dropdown.active{
+	background: #FFFFFF;
+	position: absolute;
+	right: 10px;
+	top: 70px;
+	border-radius: 5px;
+	border: 2px solid #5488A5;
+	display: block;
+}
+.aro-profile-top-dropdown::before{
+	background: #FFFFFF;
+	content: "";
+	top: -11px;
+	right: 20px;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	border-top: 2px solid #5488A5;
+	border-left: 2px solid #5488A5;
+	transform: rotate(45deg);
+}
+.aro-profile-information{
+	width: 250px;
+	padding: 10px;
+}
+.aro-profile-button{
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	border-top: 2px solid #5488A5;
 }
 
 /* Content Css*/
@@ -297,31 +342,31 @@ body{
 }
 
 /* Color */
-.aro-danger{
+.aro-danger, .btn-danger{
 	background-color: #FD397A!important;
 	color: #FFFFFF!important;
 }
-.aro-success{
+.aro-success, .btn-success{
 	background-color: #0ABB87!important;
 	color: #FFFFFF!important;
 }
-.aro-info{
+.aro-info, .btn-info{
 	background-color: #5578EB!important;
 	color: #FFFFFF!important;
 }
-.aro-warning{
+.aro-warning, .btn-warning{
 	background-color: #FFB822!important;
 	color: #FFFFFF!important;
 }
-.aro-primary{
+.aro-primary, .btn-primary{
 	background-color: #5867DD!important;
 	color: #FFFFFF!important;
 }
-.aro-dark{
+.aro-dark, .btn-dark{
 	background-color: #282A3C!important;
 	color: #FFFFFF!important;
 }
-.aro-light{
+.aro-light, .btn-light{
 	background-color: #FFFFFF!important;
 	color: #000000!important;
 }
