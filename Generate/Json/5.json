@@ -1,0 +1,19 @@
+{
+    "image": "---enter ipfs url---",
+    "name": "Miumicream #5",
+    "description": "Miumicream with randomly NFT",
+    "attributes": [
+        {
+            "trait_type": "Background",
+            "value": "Gladient"
+        },
+        {
+            "trait_type": "Body",
+            "value": "Pinapple"
+        },
+        {
+            "trait_type": "Face",
+            "value": "Wkwkwk"
+        }
+    ]
+}
