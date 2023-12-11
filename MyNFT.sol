@@ -19,12 +19,12 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     uint256 private _maxMintOnTime = 2;
     uint256 private _maxMintPerWallet = 10;
     address private _addressReceiver;
-
+    
     mapping(address => uint256) private _mintedCountByAddress;
 
     string private _baseJsonUrl = "https://erickdewa.github.io/Generate/Json/";
 
-    constructor() ERC721("Miumicream", "MMI") Ownable() {
+    constructor() ERC721("Miumicream", "MMI") Ownable(msg.sender) {
         _addressReceiver = msg.sender;
     }
 
@@ -40,7 +40,7 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     //********************************//
     //              Mint              //
     //********************************//
-    function mint() external payable {
+    function mint() public payable {
         require(!_holdMint, "Minting is currently on hold");
         require(msg.value >= _price, "Insufficient funds sent with the transaction");
         require(msg.value <= address(this).balance, "Insufficient funds in the contract");
@@ -54,16 +54,17 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
 
+        // _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId))));
         _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId), ".json")));
 
-        if (_price != 0) {
-            Address.sendValue(payable(_addressReceiver), msg.value);
+        if(_price != 0){
+            payable(_addressReceiver).transfer(msg.value);
         }
 
         emit NFTMinted(msg.sender, newItemId);
     }
 
-    function multiMint(uint256 amount) external payable {
+    function multiMint(uint256 amount) public payable {
         uint256 _totalPrice = amount * _price;
 
         require(!_holdMint, "Minting is currently on hold");
@@ -83,11 +84,12 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
             uint256 newItemId = _tokenIds.current();
             _mint(msg.sender, newItemId);
 
+            // _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId))));
             _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId), ".json")));
         }
 
-        if (_totalPrice != 0) {
-            Address.sendValue(payable(_addressReceiver), msg.value);
+        if(_totalPrice != 0){
+            payable(_addressReceiver).transfer(msg.value);
         }
     }
 
@@ -97,68 +99,56 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     function allowMint() external onlyOwner {
         _holdMint = false;
     }
-
     function holdMint() external onlyOwner {
         _holdMint = true;
     }
-
     function changeMaxSupply(uint256 newMaxSupply) external onlyOwner {
         require(newMaxSupply >= _mintedCount, "New max supply must be greater than or equal to the current total supply");
         _maxSupply = newMaxSupply;
         emit MaxSupplyChanged(newMaxSupply);
     }
-
     function changePrice(uint256 newPrice) external onlyOwner {
         _price = newPrice;
         emit PriceChanged(newPrice);
     }
-
     function changeMaxMintOnTime(uint256 newMaxMintOnTime) external onlyOwner {
         _maxMintOnTime = newMaxMintOnTime;
         emit MaxMintOnTimeChanged(newMaxMintOnTime);
     }
-
     function changeMaxMintPerWallet(uint256 newMaxMintPerWallet) external onlyOwner {
         _maxMintPerWallet = newMaxMintPerWallet;
         emit MaxMintPerWalletChanged(newMaxMintPerWallet);
     }
-
     function changeAddressReceiver(address receiver) external onlyOwner {
         _addressReceiver = receiver;
-        emit AddressReceiverChanged(receiver);
+        emit AddressReceiverChanged(_addressReceiver);
     }
 
     //********************************//
     //             Getter             //
     //********************************//
-    function totalSupply() external view returns (uint256) {
+    function totalSupply() public view returns (uint256) {
         return _maxSupply;
     }
-
-    function minted() external view returns (uint256) {
+    function minted() public view returns (uint256) {
         return _mintedCount;
     }
-
-    function tokenURI(uint256 tokenId) external view virtual override returns (string memory) {
-        return string(abi.encodePacked(_baseJsonUrl, Strings.toString(tokenId), ".json"));
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        string memory baseURI = _baseJsonUrl;
+        return string(abi.encodePacked(baseURI, Strings.toString(tokenId), ".json"));
     }
-
-    function baseUri() external view returns (string memory) {
+    function baseUri() public view returns (string memory) {
         return _baseJsonUrl;
     }
-
-    function getPrice() external view returns (uint256) {
+    function getPrice() public view returns (uint256) {
         return _price;
     }
-
-    function getMaxMintOnTime() external view returns (uint256) {
+    function getMaxMintOnTime() public view returns (uint256) {
         return _maxMintOnTime;
     }
-
-    function getMaxMintPerWallet() external view returns (uint256) {
+    function getMaxMintPerWallet() public view returns (uint256) {
         return _maxMintPerWallet;
     }
-
     function getTokenIdsByAddress(address walletAddress) external view returns (uint256[] memory) {
         uint256[] memory tokenIds = new uint256[](_mintedCountByAddress[walletAddress]);
 
