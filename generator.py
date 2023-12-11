@@ -74,6 +74,7 @@ def generate(tokenID):
     with open('Generate/Json/' + str(tokenID) + '.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
-# Example usage
-for i in range(10):
-    generate(i + 1)
+# Call Function Generator
+for i in range(1000):
+    if((i + 1) > 100) :
+        generate(i + 1)

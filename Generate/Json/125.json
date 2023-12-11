@@ -1,0 +1,19 @@
+{
+    "image": "https://erickdewa.github.io/Generate/Image/125.png",
+    "name": "Miumicream #125",
+    "description": "Miumicream with randomly NFT",
+    "attributes": [
+        {
+            "trait_type": "Background",
+            "value": "Grey"
+        },
+        {
+            "trait_type": "Body",
+            "value": "Chery"
+        },
+        {
+            "trait_type": "Face",
+            "value": "Hahaha"
+        }
+    ]
+}
