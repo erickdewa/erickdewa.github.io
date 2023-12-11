@@ -1,5 +1,5 @@
 {
-    "image": "---enter ipfs url---",
+    "image": "https://erickdewa.github.io/Generate/Image/1.png",
     "name": "Miumicream #1",
     "description": "Miumicream with randomly NFT",
     "attributes": [
@@ -9,7 +9,7 @@
         },
         {
             "trait_type": "Body",
-            "value": "Bluebarry"
+            "value": "Chery"
         },
         {
             "trait_type": "Face",

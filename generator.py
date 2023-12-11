@@ -52,7 +52,7 @@ def generate(tokenID):
 
     # Generate JSON
     data = {
-        'image': '---enter ipfs url---',
+        'image': 'https://erickdewa.github.io/Generate/Image/' + str(tokenID) + '.png',
         'name': 'Miumicream #' + str(tokenID),
         'description': 'Miumicream with randomly NFT',
         'attributes' : [
