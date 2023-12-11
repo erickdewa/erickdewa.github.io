@@ -133,6 +133,9 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     function minted() public view returns (uint256) {
         return _mintedCount;
     }
+    function getStatusHold() public view returns (uint256) {
+        return _holdMint ? 0 : 1;
+    }
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         string memory baseURI = _baseJsonUrl;
         return string(abi.encodePacked(baseURI, Strings.toString(tokenId), ".json"));

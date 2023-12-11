@@ -16,13 +16,31 @@
 <h2>Mint Tophers Diamond NFT</h2>
 
 <div style="margin: 10px 0px;">
-	<button id="btn_mint">MINT WITH TOKEN</button>
+	<button id="btn_mint">MINT NFT</button>
 </div>
+
+<!-- <div style="margin: 10px 0px;">
+	<input type="text" id="inp_amount_mint" value="2" placeholder="Amount" />
+	<button id="btn_amount_mint">MINT NFT</button>
+</div> -->
 
 <div style="margin: 10px 0px;">
 	<input type="text" id="inp_recipient" value="0x8F6e30934a49Ed30Bb8BeFEb978B068D6f15e859" placeholder="recipient address" />
 	<button id="btn_change_recipient">Change Address Recipient</button>
 </div>
+
+<div style="margin: 10px 0px;">
+	<button id="btn_get_max_supply">GET MAX SUPPLY</button>
+</div>
+
+<div style="margin: 10px 0px;">
+	<button id="btn_get_price">GET PRICE</button>
+</div>
+
+<!-- <div style="margin: 10px 0px;">
+	<button id="btn_set_hold">HOLD MINT</button>
+	<button id="btn_set_unhold">UNHOLD MINT</button>
+</div> -->
 
 <div style="margin: 10px 0px;">
 	<input type="text" id="inp_address" value="0x8F6e30934a49Ed30Bb8BeFEb978B068D6f15e859" placeholder="address" />
@@ -897,9 +915,15 @@ $txtContractAddress.innerHTML = myContractAddress;
 let $inpReceipient = document.getElementById('inp_recipient');
 let $inpUrl = document.getElementById('inp_url');
 let $inpAddress = document.getElementById('inp_address');
+let $inpAmountMint = document.getElementById('inp_amount_mint');
 let $btnMint = document.getElementById('btn_mint');
+let $btnAmountMint = document.getElementById('btn_amount_mint');
 let $btnChangeRecipient = document.getElementById('btn_change_recipient');
 let $btnGetNft = document.getElementById('btn_get_nft');
+let $btnSetHold = document.getElementById('btn_set_hold');
+let $btnSetUnhold = document.getElementById('btn_set_unhold');
+let $btnGetMaxSupply = document.getElementById('btn_get_max_supply');
+let $btnGetPrice = document.getElementById('btn_get_price');
 let $listNft = document.getElementById('list-nft');
 let $ahref = document.getElementById('etherscan_ahref');
 
@@ -910,6 +934,25 @@ const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
 
 // Prepare ETH Contract for later use
 const ethContract = new ethers.Contract(myContractAddress, myContractABI, metamaskProvider);
+
+init();
+async function init() {
+	try {
+		const holdMint = await contractWithSigner.getStatusHold();
+	
+		if((holdMint ?? 0)){
+			$btnSetUnhold.style.display = 'block';
+			$btnSetHold.style.display = 'none';
+		} else {
+			$btnSetUnhold.style.display = 'none';
+			$btnSetHold.style.display = 'block';
+		}
+	} catch (error) {
+		const holdMint = 0;
+		$btnSetUnhold.style.display = 'none';
+		$btnSetHold.style.display = 'block';
+	}
+}
 
 async function connectWithMetamask() {
     const account = await metamaskProvider.send("eth_requestAccounts", []);
@@ -928,31 +971,116 @@ async function performMintNft() {
 	const metamaskSigner = metamaskProvider.getSigner();
 	const contractWithSigner = ethContract.connect(metamaskSigner);
 
-	const valueInWei = ethers.utils.parseEther('0.005'); // 0.005 ETH
+	const valueInWei = await contractWithSigner.getPrice();
 
-	let transaction = await contractWithSigner.mint({
-		value: valueInWei,
-	});
+	try {
+		let transaction = await contractWithSigner.mint({
+			value: valueInWei,
+		});
+		
+		$ahref.innerHTML = 'View Etherscan: ' + etherscanBaseUrl + transaction.hash;
+		$ahref.href = etherscanBaseUrl + transaction.hash;
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
 
-	$ahref.innerHTML = 'View Etherscan: ' + etherscanBaseUrl + transaction.hash;
-	$ahref.href = etherscanBaseUrl + transaction.hash;
+async function performMintAmountNft() {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	const amount = $inpAmountMint.value;
+	const valueInWei = await contractWithSigner.getPrice();
+	try {
+		let transaction = await contractWithSigner.multiMint({
+			amount: amount,
+			value: valueInWei * amount,
+		});
+		
+		$ahref.innerHTML = 'View Etherscan: ' + etherscanBaseUrl + transaction.hash;
+		$ahref.href = etherscanBaseUrl + transaction.hash;
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
 }
 
 async function getNftByAddress(address) {
 	const baseUri = await ethContract.baseUri();
 
-	const tokenIDs = await ethContract.getTokenIdsByAddress(address);
-	tokenIDs.forEach((tokenID) => {
-		fetchData(baseUri + tokenID + '.json', tokenID);
-    });
+	try {
+		const tokenIDs = await ethContract.getTokenIdsByAddress(address);
+		tokenIDs.forEach((tokenID) => {
+			fetchData(baseUri + tokenID + '.json', tokenID);
+		});
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
 }
 
 async function changeAddressReceive(address) {
 	const metamaskSigner = metamaskProvider.getSigner();
 	const contractWithSigner = ethContract.connect(metamaskSigner);
 
-	const response = await contractWithSigner.changeAddressReceiver($inpReceipient.value);
-	console.log(response);
+	try {
+		let transaction = await contractWithSigner.changeAddressReceiver($inpReceipient.value);
+		
+		$ahref.innerHTML = 'Success: Change Address Receiver';
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
+async function getMaxSupply() {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let transaction = await contractWithSigner.totalSupply();
+		
+		$ahref.innerHTML = 'Success: max supply ' + transaction;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
+async function getPrice() {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let transaction = await contractWithSigner.getPrice();
+		
+		$ahref.innerHTML = 'Success: price ' + transaction + ' WEI';
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
 }
 
 function fetchData(fullUri , tokenID){
@@ -985,8 +1113,11 @@ function fetchData(fullUri , tokenID){
 		wrapElement.appendChild(imgElement);
 		wrapElement.appendChild(textElement);
 		$listNft.appendChild(wrapElement);
-	}).catch(err => {
-		console.log(err);
+	}).catch(error => {
+		$ahref.innerHTML = 'Error: ' + error.message + ' - ' + 'Token ID: ' + tokenID;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
 	});
 }
 
@@ -999,8 +1130,48 @@ $btnMint.addEventListener('click', function() {
   performMintNft();
 });
 
+$btnAmountMint.addEventListener('click', function() {
+  performMintAmountNft();
+});
+
 $btnChangeRecipient.addEventListener('click', function() {
   changeAddressReceive($inpReceipient.value);
+});
+
+$btnGetMaxSupply.addEventListener('click', function() {
+  getMaxSupply();
+});
+
+$btnGetPrice.addEventListener('click', function() {
+  getPrice();
+});
+
+$btnSetHold.addEventListener('click', function() {
+	try {
+		ethContract.holdMint();
+
+		$btnSetUnhold.style.display = 'block';
+		$btnSetHold.style.display = 'none';
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+});
+
+$btnSetUnhold.addEventListener('click', function() {
+	try {
+		ethContract.allowMint();
+
+		$btnSetUnhold.style.display = 'none';
+		$btnSetHold.style.display = 'block';
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
 });
 
 $btnGetNft.addEventListener('click', function() {
