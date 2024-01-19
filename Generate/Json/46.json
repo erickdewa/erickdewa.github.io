@@ -3,7 +3,8 @@
     "name": "#46",
     "description": "Miumicream with randomly NFT",
     "image": "ipfs://QmRKg7btmVJUdhGXwBvpBs4p8xAHHE7N3zS7RGk1EZkQRE/46.png",
-    "date": "20240119140325",
+    "date": "20240119142705",
+    "generation": 1,
     "attributes": [
         {
             "trait_type": "Background",
