@@ -1,7 +1,9 @@
 {
-    "image": "https://erickdewa.github.io/Generate/Image/8.png",
-    "name": "Miumicream #8",
+    "id": 8,
+    "name": "#8",
     "description": "Miumicream with randomly NFT",
+    "image": "ipfs://QmRKg7btmVJUdhGXwBvpBs4p8xAHHE7N3zS7RGk1EZkQRE/8.png",
+    "date": "20240119140325",
     "attributes": [
         {
             "trait_type": "Background",
