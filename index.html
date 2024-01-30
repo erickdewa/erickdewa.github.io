@@ -1,5 +1,13 @@
 <html>
 <head>
+	<title>My NFT</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+	</style>
 </head>
 <body>
 <h2>Your Metamask Address: <span id="your_meta_acc">connecting to Metamask...</span></h2>
@@ -13,20 +21,30 @@
 
 <hr/>
 
-<h2>Mint Tophers Diamond NFT</h2>
+<h2>Mint Miumicream NFT</h2>
 
 <div style="margin: 10px 0px;">
 	<button id="btn_mint">MINT NFT</button>
 </div>
 
-<!-- <div style="margin: 10px 0px;">
+<div style="margin: 10px 0px;">
 	<input type="text" id="inp_amount_mint" value="2" placeholder="Amount" />
 	<button id="btn_amount_mint">MINT NFT</button>
-</div> -->
+</div>
 
 <div style="margin: 10px 0px;">
 	<input type="text" id="inp_recipient" value="0x8F6e30934a49Ed30Bb8BeFEb978B068D6f15e859" placeholder="recipient address" />
 	<button id="btn_change_recipient">Change Address Recipient</button>
+</div>
+
+<div style="margin: 10px 0px;">
+	<input type="text" id="inp_add_whitelist" value="0x8F6e30934a49Ed30Bb8BeFEb978B068D6f15e859" placeholder="whitelist address" />
+	<button id="btn_add_whitelist">ADD WHITELIST</button>
+</div>
+
+<div style="margin: 10px 0px;">
+	<input type="text" id="inp_remove_whitelist" value="0x8F6e30934a49Ed30Bb8BeFEb978B068D6f15e859" placeholder="whitelist address" />
+	<button id="btn_remove_whitelist">REMOVE WHITELIST</button>
 </div>
 
 <div style="margin: 10px 0px;">
@@ -37,10 +55,14 @@
 	<button id="btn_get_price">GET PRICE</button>
 </div>
 
-<!-- <div style="margin: 10px 0px;">
+<div style="margin: 10px 0px;">
+	<button id="btn_get_price_whitelist">GET PRICE WHITELIST</button>
+</div>
+
+<div style="margin: 10px 0px;">
 	<button id="btn_set_hold">HOLD MINT</button>
 	<button id="btn_set_unhold">UNHOLD MINT</button>
-</div> -->
+</div>
 
 <div style="margin: 10px 0px;">
 	<input type="text" id="inp_address" value="0x8F6e30934a49Ed30Bb8BeFEb978B068D6f15e859" placeholder="address" />
@@ -56,6 +78,26 @@
 <script>
 // SET PARAMS HERE:
 let myContractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "toAddAddresses",
+				"type": "address[]"
+			}
+		],
+		"name": "addToWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "allowMint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -250,6 +292,24 @@ let myContractABI = [
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -267,6 +327,84 @@ let myContractABI = [
 		],
 		"name": "BatchMetadataUpdate",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			}
+		],
+		"name": "changeAddressReceiver",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newMaxMintOnTime",
+				"type": "uint256"
+			}
+		],
+		"name": "changeMaxMintOnTime",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newMaxMintPerWallet",
+				"type": "uint256"
+			}
+		],
+		"name": "changeMaxMintPerWallet",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newMaxSupply",
+				"type": "uint256"
+			}
+		],
+		"name": "changeMaxSupply",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "changePrice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newPriceWhitelist",
+				"type": "uint256"
+			}
+		],
+		"name": "changePriceWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -298,6 +436,26 @@ let myContractABI = [
 			}
 		],
 		"name": "GetEther",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "holdMint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newMaxMintOnTime",
+				"type": "uint256"
+			}
+		],
+		"name": "MaxMintOnTimeChanged",
 		"type": "event"
 	},
 	{
@@ -338,6 +496,26 @@ let myContractABI = [
 		],
 		"name": "MetadataUpdate",
 		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "mint",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "multiMint",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -391,335 +569,16 @@ let myContractABI = [
 		"type": "event"
 	},
 	{
-		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
+				"internalType": "address[]",
+				"name": "toRemoveAddresses",
+				"type": "address[]"
 			}
 		],
-		"name": "Transfer",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "addressReceiver",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
+		"name": "removeFromWhitelist",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "baseUri",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "receiver",
-				"type": "address"
-			}
-		],
-		"name": "changeAddressReceiver",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "newMaxMintPerWallet",
-				"type": "uint256"
-			}
-		],
-		"name": "changeMaxMintPerWallet",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "newMaxSupply",
-				"type": "uint256"
-			}
-		],
-		"name": "changeMaxSupply",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "newPrice",
-				"type": "uint256"
-			}
-		],
-		"name": "changePrice",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "getApproved",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getPrice",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "walletAddress",
-				"type": "address"
-			}
-		],
-		"name": "getTokenIdsByAddress",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			}
-		],
-		"name": "isApprovedForAll",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "maxMintPerWallet",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "maxSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "mint",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "minted",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "mintedCount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "name",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "ownerOf",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "price",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -799,6 +658,284 @@ let myContractABI = [
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "baseUri",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMaxMintOnTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMaxMintPerWallet",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPriceWhitelist",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getStatusHold",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "walletAddress",
+				"type": "address"
+			}
+		],
+		"name": "getTokenIdsByAddress",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "minted",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "bytes4",
@@ -866,40 +1003,23 @@ let myContractABI = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "whitelistAddress",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ];
-let myContractAddress = '0xa0Dd24d7D8872Fe986d59Fc55ff846F6feA73Ae3';
+let myContractAddress = '0x62A46048d3a565059cCbAce6BEE45Cf7c45ed009';
 
 // ===========================================
 
@@ -915,21 +1035,26 @@ $txtContractAddress.innerHTML = myContractAddress;
 let $inpReceipient = document.getElementById('inp_recipient');
 let $inpUrl = document.getElementById('inp_url');
 let $inpAddress = document.getElementById('inp_address');
+let $inpAddWhitelist = document.getElementById('inp_add_whitelist');
+let $inpRemoveWhitelist = document.getElementById('inp_remove_whitelist');
 let $inpAmountMint = document.getElementById('inp_amount_mint');
 let $btnMint = document.getElementById('btn_mint');
 let $btnAmountMint = document.getElementById('btn_amount_mint');
+let $btnAddWhitelist = document.getElementById('btn_add_whitelist');
+let $btnRemoveWhitelist = document.getElementById('btn_remove_whitelist');
 let $btnChangeRecipient = document.getElementById('btn_change_recipient');
 let $btnGetNft = document.getElementById('btn_get_nft');
 let $btnSetHold = document.getElementById('btn_set_hold');
 let $btnSetUnhold = document.getElementById('btn_set_unhold');
 let $btnGetMaxSupply = document.getElementById('btn_get_max_supply');
 let $btnGetPrice = document.getElementById('btn_get_price');
+let $btnGetPriceWhitelist = document.getElementById('btn_get_price_whitelist');
 let $listNft = document.getElementById('list-nft');
 let $ahref = document.getElementById('etherscan_ahref');
 
-let etherscanBaseUrl = 'https://goerli.etherscan.io/tx/';
+let etherscanBaseUrl = 'https://sepolia.etherscan.io/tx/';
 
-// Provider is using Metamask
+// Create Polygon Mumbai Testnet Web3Provider
 const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
 
 // Prepare ETH Contract for later use
@@ -965,6 +1090,7 @@ async function connectWithContract() {
 	$txtContractOwner.innerHTML = 'connecting...';
 	$txtContractOwner.innerHTML = await ethContract.owner();
 	$txtContractInfo.innerHTML = await ethContract.name() + ' / ' + await ethContract.symbol();
+	console.log($txtContractOwner.innerHTML + ' ' + $txtContractInfo.innerHTML);
 }
 
 async function performMintNft() {
@@ -1045,6 +1171,48 @@ async function changeAddressReceive(address) {
 	}
 }
 
+async function addWhitelist(address) {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let addresses = []
+		addresses.push(address);
+		let transaction = await contractWithSigner.addToWhitelist(addresses);
+		
+		$ahref.innerHTML = 'Success: Add Whitelist';
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
+async function removeWhitelist(address) {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let addresses = []
+		addresses.push(address);
+		let transaction = await contractWithSigner.removeFromWhitelist(addresses);
+		
+		$ahref.innerHTML = 'Success: Add Whitelist';
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
 async function getMaxSupply() {
 	const metamaskSigner = metamaskProvider.getSigner();
 	const contractWithSigner = ethContract.connect(metamaskSigner);
@@ -1077,6 +1245,60 @@ async function getPrice() {
 		}, 5000);
 	} catch (error) {
 		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
+async function getPriceWhitelist() {
+	console.log(true);
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let transaction = await contractWithSigner.getPriceWhitelist();
+		
+		$ahref.innerHTML = 'Success: price ' + transaction + ' WEI';
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
+async function holdMint() {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let transaction = await contractWithSigner.holdMint();
+
+		$btnSetUnhold.style.display = 'block';
+		$btnSetHold.style.display = 'none';
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.message;
+		setTimeout(function() {
+			$ahref.innerHTML = '';
+		}, 5000);
+	}
+}
+
+async function allowMint() {
+	const metamaskSigner = metamaskProvider.getSigner();
+	const contractWithSigner = ethContract.connect(metamaskSigner);
+
+	try {
+		let transaction = await contractWithSigner.allowMint();
+
+		$btnSetUnhold.style.display = 'block';
+		$btnSetHold.style.display = 'none';
+	} catch (error) {
+		$ahref.innerHTML = 'Error: ' + error.message;
 		setTimeout(function() {
 			$ahref.innerHTML = '';
 		}, 5000);
@@ -1127,51 +1349,43 @@ window.onload = function() {
 };
 
 $btnMint.addEventListener('click', function() {
-  performMintNft();
+	performMintNft();
 });
 
 $btnAmountMint.addEventListener('click', function() {
-  performMintAmountNft();
+	performMintAmountNft();
 });
 
 $btnChangeRecipient.addEventListener('click', function() {
-  changeAddressReceive($inpReceipient.value);
+	changeAddressReceive($inpReceipient.value);
+});
+
+$btnAddWhitelist.addEventListener('click', function() {
+	addWhitelist($inpAddWhitelist.value);
+});
+
+$btnRemoveWhitelist.addEventListener('click', function() {
+	removeWhitelist($inpRemoveWhitelist.value);
 });
 
 $btnGetMaxSupply.addEventListener('click', function() {
-  getMaxSupply();
+	getMaxSupply();
 });
 
 $btnGetPrice.addEventListener('click', function() {
-  getPrice();
+	getPrice();
+});
+
+$btnGetPriceWhitelist.addEventListener('click', function() {
+	getPriceWhitelist();
 });
 
 $btnSetHold.addEventListener('click', function() {
-	try {
-		ethContract.holdMint();
-
-		$btnSetUnhold.style.display = 'block';
-		$btnSetHold.style.display = 'none';
-	} catch (error) {
-		$ahref.innerHTML = 'Error: ' + error.message;
-		setTimeout(function() {
-			$ahref.innerHTML = '';
-		}, 5000);
-	}
+	holdMint();
 });
 
 $btnSetUnhold.addEventListener('click', function() {
-	try {
-		ethContract.allowMint();
-
-		$btnSetUnhold.style.display = 'none';
-		$btnSetHold.style.display = 'block';
-	} catch (error) {
-		$ahref.innerHTML = 'Error: ' + error.message;
-		setTimeout(function() {
-			$ahref.innerHTML = '';
-		}, 5000);
-	}
+	allowMint();
 });
 
 $btnGetNft.addEventListener('click', function() {

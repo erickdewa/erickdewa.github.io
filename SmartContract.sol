@@ -12,19 +12,22 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    bool private _holdMint = true;
+    bool private _holdMintPublic = true;
+    bool private _holdMintWhitelist = true;
     uint256 private _price = 0 ether;
-    uint256 private _maxSupply = 2000;
+    uint256 private _priceWhitelist = 0 ether;
+    uint256 private _maxSupply = 10000;
     uint256 private _mintedCount = 0;
     uint256 private _maxMintOnTime = 2;
     uint256 private _maxMintPerWallet = 10;
     address private _addressReceiver;
-    
+
+    mapping(address => bool) private _whitelistAddress;
     mapping(address => uint256) private _mintedCountByAddress;
 
-    string private _baseJsonUrl = "https://erickdewa.github.io/Generate/Json/";
+    string private _baseJsonUrl = "ipfs://QmVkgHLTjBGBby1QMnyV1ppBdXPwbp1kgfUCfUE9dmwMwQ/";
 
-    constructor() ERC721("Miumicream", "MMI") Ownable(msg.sender) {
+    constructor() ERC721("Miumicream", "MMI") Ownable(msg.sender) payable {
         _addressReceiver = msg.sender;
     }
 
@@ -41,11 +44,21 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     //              Mint              //
     //********************************//
     function mint() public payable {
-        require(!_holdMint, "Minting is currently on hold");
-        require(msg.value >= _price, "Insufficient funds sent with the transaction");
-        require(msg.value <= address(this).balance, "Insufficient funds in the contract");
+        uint256 price = _price;
+
+        // check on whitelist
+        if(_whitelistAddress[msg.sender]){
+            price = _priceWhitelist;
+            
+            require(!_holdMintWhitelist, "Minting Whitelist is currently on hold");
+        } else {
+            require(!_holdMintPublic, "Minting Public is currently on hold");
+        }
+
         require(_mintedCountByAddress[msg.sender] < _maxMintPerWallet, "Exceeded maximum minting limit per wallet");
         require(_mintedCount < _maxSupply, "Max supply reached");
+        require(msg.value >= price, "Insufficient funds sent with the transaction");
+        require(msg.value <= address(this).balance, "Insufficient funds in the contract");
 
         _tokenIds.increment();
         _mintedCountByAddress[msg.sender]++;
@@ -54,10 +67,9 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
 
-        // _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId))));
         _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId), ".json")));
 
-        if(_price != 0){
+        if(price != 0){
             payable(_addressReceiver).transfer(msg.value);
         }
 
@@ -67,14 +79,22 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     function multiMint(uint256 amount) public payable {
         uint256 _totalPrice = amount * _price;
 
-        require(!_holdMint, "Minting is currently on hold");
-        require(msg.value >= _totalPrice, "Insufficient funds sent with the transaction");
-        require(msg.value <= address(this).balance, "Insufficient funds in the contract");
-        require(amount <= _maxMintOnTime, "Exceeded maximum minting limit per transaction");
+        // check on whitelist
+        if(_whitelistAddress[msg.sender]){
+            _totalPrice = amount * _priceWhitelist;
+
+            require(!_holdMintWhitelist, "Minting Whitelist is currently on hold");
+        } else {
+            require(!_holdMintPublic, "Minting Public is currently on hold");
+        }
+
         require(amount > 0, "Amount must be greater than zero");
+        require(amount <= _maxMintOnTime, "Exceeded maximum minting limit per transaction");
         require(amount <= _maxMintPerWallet, "Exceeded maximum minting limit per wallet");
         require((_mintedCountByAddress[msg.sender] + amount) <= _maxMintPerWallet, "Exceeded maximum minting limit per wallet");
         require((_mintedCount + amount) <= _maxSupply, "Max supply reached");
+        require(msg.value >= _totalPrice, "Insufficient funds sent with the transaction");
+        require(msg.value <= address(this).balance, "Insufficient funds in the contract");
 
         for (uint256 i = 0; i < amount; i++) {
             _tokenIds.increment();
@@ -84,7 +104,6 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
             uint256 newItemId = _tokenIds.current();
             _mint(msg.sender, newItemId);
 
-            // _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId))));
             _setTokenURI(newItemId, string(abi.encodePacked(_baseJsonUrl, Strings.toString(newItemId), ".json")));
         }
 
@@ -96,11 +115,17 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     //********************************//
     //           Customable           //
     //********************************//
-    function allowMint() external onlyOwner {
-        _holdMint = false;
+    function allowMintPublic() external onlyOwner {
+        _holdMintPublic = false;
     }
-    function holdMint() external onlyOwner {
-        _holdMint = true;
+    function holdMintPublic() external onlyOwner {
+        _holdMintPublic = true;
+    }
+    function allowMintWhitelist() external onlyOwner {
+        _holdMintWhitelist = false;
+    }
+    function holdMintWhitelist() external onlyOwner {
+        _holdMintWhitelist = true;
     }
     function changeMaxSupply(uint256 newMaxSupply) external onlyOwner {
         require(newMaxSupply >= _mintedCount, "New max supply must be greater than or equal to the current total supply");
@@ -110,6 +135,10 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     function changePrice(uint256 newPrice) external onlyOwner {
         _price = newPrice;
         emit PriceChanged(newPrice);
+    }
+    function changePriceWhitelist(uint256 newPriceWhitelist) external onlyOwner {
+        _priceWhitelist = newPriceWhitelist;
+        emit PriceChanged(newPriceWhitelist);
     }
     function changeMaxMintOnTime(uint256 newMaxMintOnTime) external onlyOwner {
         _maxMintOnTime = newMaxMintOnTime;
@@ -123,6 +152,9 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
         _addressReceiver = receiver;
         emit AddressReceiverChanged(_addressReceiver);
     }
+    function changeBaseJsonUrl(string memory newBaseJsonUrl) external onlyOwner {
+        _baseJsonUrl = newBaseJsonUrl;
+    }
 
     //********************************//
     //             Getter             //
@@ -133,10 +165,17 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     function minted() public view returns (uint256) {
         return _mintedCount;
     }
-    function getStatusHold() public view returns (uint256) {
-        return _holdMint ? 0 : 1;
+    function getStatusHoldMintPublic() public view returns (uint256) {
+        return _holdMintPublic ? 0 : 1;
+    }
+    function getStatusHoldMintWhitelist() public view returns (uint256) {
+        return _holdMintWhitelist ? 0 : 1;
     }
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        if(_mintedCount < tokenId){
+            return "";
+        }
+
         string memory baseURI = _baseJsonUrl;
         return string(abi.encodePacked(baseURI, Strings.toString(tokenId), ".json"));
     }
@@ -145,6 +184,9 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     }
     function getPrice() public view returns (uint256) {
         return _price;
+    }
+    function getPriceWhitelist() public view returns (uint256) {
+        return _priceWhitelist;
     }
     function getMaxMintOnTime() public view returns (uint256) {
         return _maxMintOnTime;
@@ -164,5 +206,22 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
         }
 
         return tokenIds;
+    }
+
+    //********************************//
+    //            Whitelist           //
+    //********************************//
+    function addToWhitelist(address[] calldata toAddAddresses) external onlyOwner{
+        for (uint i = 0; i < toAddAddresses.length; i++) {
+            _whitelistAddress[toAddAddresses[i]] = true;
+        }
+    }
+    function removeFromWhitelist(address[] calldata toRemoveAddresses) external onlyOwner {
+        for (uint i = 0; i < toRemoveAddresses.length; i++) {
+            delete _whitelistAddress[toRemoveAddresses[i]];
+        }
+    }
+    function isWhitelistAddress(address walletAddress) external view returns (bool) {
+        return _whitelistAddress[walletAddress];
     }
 }
