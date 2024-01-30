@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
-contract RandomDiamonds is ERC721URIStorage, Ownable {
+contract MyNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -25,9 +25,9 @@ contract RandomDiamonds is ERC721URIStorage, Ownable {
     mapping(address => bool) private _whitelistAddress;
     mapping(address => uint256) private _mintedCountByAddress;
 
-    string private _baseJsonUrl = "ipfs://QmVkgHLTjBGBby1QMnyV1ppBdXPwbp1kgfUCfUE9dmwMwQ/";
+    string private _baseJsonUrl = "ipfs://QmReXuSbeGdTYSwKRRUtXp1hZdsgq24saCZ3QLnWBnT7iV/";
 
-    constructor() ERC721("Miumicream", "MMI") Ownable(msg.sender) payable {
+    constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) payable {
         _addressReceiver = msg.sender;
     }
 
