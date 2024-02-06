@@ -1268,3 +1268,8 @@ $btnMint.addEventListener('click', function() {
 	updateButtonMint('Loading Minted...', true);
 	mint();
 });
+
+const $connect = document.getElementById('disconnected');
+$connect.addEventListener('click', function() {
+	connectMetamask();
+});
