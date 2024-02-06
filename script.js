@@ -1163,8 +1163,10 @@ async function updateSupply() {
         console.error('Error updating supply:', error);
     }
 
-	if(supply == minted) {
-		updateButtonMint('SOLD OUT', true);
+	if(address.length > 0) {
+		if(supply == minted) {
+			updateButtonMint('SOLD OUT', true);
+		}
 	}
 }
 
@@ -1237,11 +1239,9 @@ async function historyMint(trx) {
 }
 
 connectMetamask();
-if(address.length > 0) {
-	updateSupply();
-	updatePrice();
-	updateHoldMint();
-}
+updatePrice();
+updateSupply();
+updateHoldMint();
 
 const $btnMint = document.getElementById('btn-mint');
 $btnMint.addEventListener('click', function() {
