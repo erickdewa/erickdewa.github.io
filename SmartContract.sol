@@ -165,10 +165,10 @@ contract MyNFT is ERC721URIStorage, Ownable {
     function minted() public view returns (uint256) {
         return _mintedCount;
     }
-    function getStatusHoldMintPublic() public view returns (uint256) {
+    function getStatusHoldMintPublic() public view returns (bool) {
         return _holdMintPublic ? 0 : 1;
     }
-    function getStatusHoldMintWhitelist() public view returns (uint256) {
+    function getStatusHoldMintWhitelist() public view returns (bool) {
         return _holdMintWhitelist ? 0 : 1;
     }
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
