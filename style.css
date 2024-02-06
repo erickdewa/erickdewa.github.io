@@ -11,7 +11,8 @@ body {
     border-radius: 10px;
     right: 15px;
 }
-#info-wallet #connected {
+#info-wallet #connected,
+#info-wallet #disconnected {
     display: flex;
     padding: 15px 0px;
 }

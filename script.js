@@ -995,6 +995,12 @@ async function connectMetamask() {
 	isWhitelistAddress = getIsWhitelistAddress();
 
 	if(address.length > 0) {
+		$connect = document.getElementById('connected');
+		$connect.style.display = 'flex';
+
+		$connect = document.getElementById('disconnected');
+		$connect.style.display = 'none';
+
 		const $addressWallet = document.getElementById('address-wallet');
 		$addressWallet.href = etherscan + 'address/' + address;
 		$addressWallet.textContent = address.toString().substring(0, 10);
@@ -1003,6 +1009,16 @@ async function connectMetamask() {
 		$balance.href = 'https://testnets.opensea.io/collection/mynft-8056';
 		let balance = await getBalance();
 		$balance.textContent = balance + ' NFT';
+
+		updatePrice();
+		updateSupply();
+		updateHoldMint();
+	} else {
+		$connect = document.getElementById('connected');
+		$connect.style.display = 'none';
+
+		$connect = document.getElementById('disconnected');
+		$connect.style.display = 'flex';
 	}
 
 	updateButtonMint('Loading...', true);
