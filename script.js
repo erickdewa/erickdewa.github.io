@@ -1164,7 +1164,9 @@ async function updateSupply() {
     }
 
 	if(supply == minted) {
-		updateButtonMint('SOLD OUT', true);
+		if(address.length > 0) {
+			updateButtonMint('SOLD OUT', true);
+		}
 	}
 }
 
