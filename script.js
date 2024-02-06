@@ -1163,10 +1163,8 @@ async function updateSupply() {
         console.error('Error updating supply:', error);
     }
 
-	if(address.length > 0) {
-		if(supply == minted) {
-			updateButtonMint('SOLD OUT', true);
-		}
+	if(supply == minted) {
+		updateButtonMint('SOLD OUT', true);
 	}
 }
 
