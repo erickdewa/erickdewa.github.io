@@ -1237,9 +1237,11 @@ async function historyMint(trx) {
 }
 
 connectMetamask();
-updateSupply();
-updatePrice();
-updateHoldMint();
+if(address.length > 0) {
+	updateSupply();
+	updatePrice();
+	updateHoldMint();
+}
 
 const $btnMint = document.getElementById('btn-mint');
 $btnMint.addEventListener('click', function() {
