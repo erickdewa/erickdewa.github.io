@@ -997,7 +997,7 @@ async function connectMetamask() {
 	}
 
 	if(address) {
-		isWhitelistAddress = getIsWhitelistAddress();
+		isWhitelistAddress = !getIsWhitelistAddress();
 		$connect = document.getElementById('connected');
 		$connect.style.display = 'flex';
 
@@ -1073,7 +1073,7 @@ async function getIsWhitelistAddress() {
 		const metamaskSigner = metamask.getSigner();
 		const contractWithSigner = contract.connect(metamaskSigner);
 		const response = await contractWithSigner.isWhitelistAddress(address);
-		return (response ? true : false);
+		return response;
 	} catch (error) {
 		popupMessages(error.message, 'Error');
 		return false;
