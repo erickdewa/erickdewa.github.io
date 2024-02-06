@@ -992,9 +992,12 @@ let price = 0;
 
 async function connectMetamask() {
 	address = await metamask.send("eth_requestAccounts", []);
-	isWhitelistAddress = getIsWhitelistAddress();
-
 	if(address.length > 0) {
+		address = address[0];
+	}
+
+	if(address) {
+		isWhitelistAddress = !getIsWhitelistAddress();
 		$connect = document.getElementById('connected');
 		$connect.style.display = 'flex';
 
@@ -1023,7 +1026,7 @@ async function connectMetamask() {
 
 	updateButtonMint('Loading...', true);
 	setTimeout(function() {
-		if(address.length > 0) {
+		if(address) {
 			updateButtonMint('MINT', false);
 		}
 	}, 2000);
@@ -1057,10 +1060,9 @@ async function getBalance() {
 	try {
 		const metamaskSigner = metamask.getSigner();
         const contractWithSigner = contract.connect(metamaskSigner);
-		const response = await contractWithSigner.balanceOf(address[0]);
+		const response = await contractWithSigner.balanceOf(address);
 		return response;
 	} catch (error) {
-		console.log(error);
         popupMessages(error.message, 'Error');
         return 0;
     }
@@ -1070,7 +1072,7 @@ async function getIsWhitelistAddress() {
 	try {
 		const metamaskSigner = metamask.getSigner();
 		const contractWithSigner = contract.connect(metamaskSigner);
-		const response = await contractWithSigner.isWhitelistAddress(address[0]);
+		const response = await contractWithSigner.isWhitelistAddress(address);
 		return response;
 	} catch (error) {
 		popupMessages(error.message, 'Error');
@@ -1180,24 +1182,24 @@ async function updateSupply() {
     }
 
 	if(supply == minted) {
-		if(address.length > 0) {
+		if(address) {
 			updateButtonMint('SOLD OUT', true);
 		}
 	}
 }
 
 async function updatePrice() {
-	if(!isWhitelistAddress) {
+	if(isWhitelistAddress) {
 		try {
-			const res = await getPricePublic();
-			document.getElementById('priceMinted').textContent = currency(res);
+			const res = await getPriceWhitelist();
+			document.getElementById('priceMinted').textContent = currency(res) + ' ETH';
 		} catch (error) {
 			console.error('Error updating price:', error);
 		}
 	} else {
 		try {
-			const res = await getPriceWhitelist();
-			document.getElementById('priceMinted').textContent = currency(res);
+			const res = await getPricePublic();
+			document.getElementById('priceMinted').textContent = currency(res) + ' ETH';
 		} catch (error) {
 			console.error('Error updating price:', error);
 		}
@@ -1205,9 +1207,9 @@ async function updatePrice() {
 }
 
 async function updateHoldMint() {
-	if(!isWhitelistAddress) {
+	if(isWhitelistAddress) {
 		try {
-			const res = await getHoldMintPublic();
+			const res = await getHoldMintWhitelist();
 			if(res) {
 				updateButtonMint('MINT', false);
 			} else {
@@ -1218,7 +1220,7 @@ async function updateHoldMint() {
 		}
 	} else {
 		try {
-			const res = await getHoldMintWhitelist();
+			const res = await getHoldMintPublic();
 			if(res) {
 				updateButtonMint('MINT', false);
 			} else {
@@ -1267,4 +1269,9 @@ $btnMint.addEventListener('click', function() {
 
 	updateButtonMint('Loading Minted...', true);
 	mint();
+});
+
+const $disconnected = document.getElementById('disconnected');
+$disconnected.addEventListener('click', function() {
+	connectMetamask();
 });

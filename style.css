@@ -14,7 +14,7 @@ body {
 #info-wallet #connected,
 #info-wallet #disconnected {
     display: flex;
-    padding: 15px 0px;
+    padding: 13px 0px;
 }
 #info-wallet #connected a {
     color: white;
@@ -161,4 +161,23 @@ body {
     text-decoration: none;
     padding-top: 5px;
     text-align: center;
+}
+
+.opensea {
+    display: flex;
+    background: white;
+    position: absolute;
+    padding: 5px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    top: 10px;
+    left: 10px;
+}
+.opensea img { width: 30px; }
+.opensea .text {
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 5px;
+    color: black;
 }
