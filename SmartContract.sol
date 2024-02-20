@@ -28,7 +28,7 @@ contract HarvestUp is ERC721URIStorage, Ownable {
     mapping(address => bool) private _whitelistAddress;
     mapping(address => uint256) private _mintedCountByAddress;
 
-    string private _baseJsonUrl = "ipfs://QmReXuSbeGdTYSwKRRUtXp1hZdsgq24saCZ3QLnWBnT7iV/";
+    string private _baseJsonUrl = "ipfs://QmVkgHLTjBGBby1QMnyV1ppBdXPwbp1kgfUCfUE9dmwMwQ/";
 
     constructor() ERC721("HarvestUp", "HVST") Ownable(msg.sender) payable {
         _addressReceiver = msg.sender;
